@@ -374,7 +374,7 @@ function getSearchDates() {
   return dates;
 }
 
-// Nomi dei campionati selezionati
+// Nomi dei campionati selezionato 
 function getSelectedLeagueNames() {
   return getSelectedLeagues()
     .map((code) => LEAGUE_NAMES[code])
@@ -398,8 +398,8 @@ async function fetchFixturesByDate(date) {
 
   const data = await response.json();
 
-  return Array.isArray(data.matches)
-  ? data.matches
+  return Array.isArray(data.response)
+  ? data.response
   : [];
 }
 
