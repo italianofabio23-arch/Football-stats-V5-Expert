@@ -1,1 +1,142 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football Stats V5 Expert</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+  <div class="app">
+    <header class="hero">
+
+            <div class="brand-row">
+        <div>
+          <p class="eyebrow">DATA • INSIGHT • EDGE</p>
+          <h1>⚽ Football Stats V5 Expert</h1>
+          <p class="subtitle">
+            Filtri intelligenti, probabilità e selezione delle migliori partite.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel">
+      <h2>1️⃣ Scegli strategia</h2>
+
+      <div class="preset-grid">
+        <button class="preset active">⚽ GG / BTTS</button>
+        <button class="preset">🔥 Over 2.5</button>
+        <button class="preset">🛡️ Under 2.5</button>
+        <button class="preset">🚩 Corner</button>
+        <button class="preset">🟨 Cartellini</button>
+      </div>
+    </section>
+        <section class="panel">
+      <h2>2️⃣ Imposta finestra di analisi</h2>
+
+      <div class="window-grid">
+        <button class="window-btn active" data-days="1">Oggi</button>
+        <button class="window-btn" data-days="2">2 giorni</button>
+        <button class="window-btn" data-days="3">3 giorni</button>
+        <button class="window-btn" data-days="4">4 giorni</button>
+      </div>
+
+      <h3>📊 Regole strategia</h3>
+
+      <div id="rulesContainer" class="rules-container">
+
+        <div class="rule-row">
+          <span>🏠 Casa</span>
+          <strong>Segna almeno 0.5 gol</strong>
+          <span>Ultime 5</span>
+          <span class="rule-value">≥ 80%</span>
+        </div>
+
+        <div class="rule-row">
+          <span>🏠 Casa</span>
+          <strong>Subisce almeno 0.5 gol</strong>
+          <span>Ultime 5</span>
+          <span class="rule-value">≥ 70%</span>
+      </div>
+              <div class="rule-row">
+          <span>✈️ Ospite</span>
+          <strong>Segna almeno 0.5 gol</strong>
+          <span>Ultime 5</span>
+          <span class="rule-value">≥ 80%</span>
+        </div>
+
+        <div class="rule-row">
+          <span>✈️ Ospite</span>
+          <strong>Subisce almeno 0.5 gol</strong>
+          <span>Ultime 5</span>
+          <span class="rule-value">≥ 70%</span>
+        </div>
+
+      </div>
+
+      <button id="searchBtn" class="search-btn">
+        🔎 Cerca partite
+      </button>
+        </section>
+            <section class="panel">
+      <h2>3️⃣ Seleziona campionati</h2>
+
+      <p class="panel-note">
+        Scegli i campionati da includere nell'analisi.
+      </p>
+
+      <div class="league-grid">
+        <label>
+          <input type="checkbox" value="SA" checked>
+          🇮🇹 Serie A
+        </label>
+
+        <label>
+          <input type="checkbox" value="PL" checked>
+          🏴 Premier League
+        </label>
+
+        <label>
+          <input type="checkbox" value="PD" checked>
+          🇪🇸 La Liga
+        </label>
+
+        <label>
+          <input type="checkbox" value="BL1" checked>
+          🇩🇪 Bundesliga
+        </label>
+
+        <label>
+          <input type="checkbox" value="FL1" checked>
+          🇫🇷 Ligue 1
+        </label>
+      </div>
+            </section>
+                <section class="panel results-panel">
+      <div class="results-head">
+        <div>
+          <h2>4️⃣ Risultati</h2>
+          <p id="resultsInfo" class="panel-note">
+            Premi "Cerca partite" per avviare l'analisi.
+          </p>
+        </div>
+
+        <span id="matchesCount" class="count-badge">
+          0 partite
+        </span>
+      </div>
+
+      <div id="resultsContainer" class="results-grid">
+        <div class="empty-state">
+          ⚽ Nessuna ricerca effettuata.
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+          </html>
