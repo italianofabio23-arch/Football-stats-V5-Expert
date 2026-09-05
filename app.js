@@ -398,8 +398,8 @@ async function fetchFixturesByDate(date) {
 
   const data = await response.json();
 
-  return Array.isArray(data.response)
-  ? data.response
+  return Array.isArray(data.matches)
+  ? data.matches
   : [];
 }
 
