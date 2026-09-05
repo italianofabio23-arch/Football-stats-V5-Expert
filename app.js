@@ -44,7 +44,7 @@ windowButtons.forEach((button) => {
 });
 // Avvia la ricerca quando premi "Cerca partite"
 searchBtn.addEventListener("click", async () => {
-  startLoading();
+  showLoading();
 
   try {
     const selectedLeagues = getSelectedLeagues();
