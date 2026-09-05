@@ -680,7 +680,7 @@ async function fetchStandings(leagueId, season) {
   const data = await response.json();
 
 const standings =
-  data.response?.[0]?.league?.standings?.[0] || [];
+  data.standings?.[0]?.table || [];
 
   standingsCache[key] = standings;
 
