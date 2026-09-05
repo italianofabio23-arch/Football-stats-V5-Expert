@@ -264,15 +264,66 @@ function renderMatchCard(match) {
     </article>
   `;
 }
+// ==========================================
+// BLOCCO 4F - Collegamento xG -> Poisson
+// ==========================================
 
-function renderMatches(matches) {
+async function enrichMatchWithExpertData(match) {
+  try {
+    // Il fixture originale API-Football è salvato in raw
+    const sourceGame = match.raw || match;
+
+    // Calcolo xG Casa / Ospite
+    const xgData =
+      await calculateExpectedGoals(sourceGame);
+
+    // Se non abbiamo dati sufficienti,
+    // lasciamo la partita invariata
+    if (!xgData) {
+      return match;
+    }
+
+    // Trasforma gli xG in probabilità Poisson
+    const probabilities =
+      calculatePoissonProbabilities(
+        xgData.homeExpectedGoals,
+        xgData.awayExpectedGoals
+      );
+
+    return {
+      ...match,
+
+      probabilities,
+
+      xg: {
+        home: xgData.homeExpectedGoals,
+        away: xgData.awayExpectedGoals
+      },
+
+      expertData: xgData
+    };
+
+  } catch (error) {
+    console.error(
+      "Errore analisi V5:",
+      error
+    );
+
+    return match;
+  }
+  }
+async function renderMatches(matches) {
   if (!Array.isArray(matches) || !matches.length) {
     showEmpty(
       "Nessuna partita soddisfa i filtri selezionati."
     );
     return;
   }
+resultsInfo.textContent = "🧠 Analisi Expert V5 in corso...";
 
+matches = await Promise.all(
+  matches.map(enrichMatchWithExpertData)
+);
   matchesCount.textContent =
     `${matches.length} ${matches.length === 1 ? "partita" : "partite"}`;
 
