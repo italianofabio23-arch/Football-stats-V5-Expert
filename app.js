@@ -42,7 +42,35 @@ windowButtons.forEach((button) => {
     selectedDays = Number(button.dataset.days) || 1;
   });
 });
+// Avvia la ricerca quando premi "Cerca partite"
+searchBtn.addEventListener("click", async () => {
+  startLoading();
 
+  try {
+    const selectedLeagues = getSelectedLeagues();
+
+    if (!selectedLeagues.length) {
+      showEmpty("Seleziona almeno un campionato.");
+      return;
+    }
+
+    const games = await fetchAllFixtures();
+    const filteredGames = filterSelectedLeagues(games);
+    const normalizedMatches = normalizeFixtures(filteredGames);
+
+    await renderMatches(normalizedMatches);
+
+  } catch (error) {
+    console.error("Errore ricerca partite:", error);
+
+    showError(
+      error?.message || "Errore durante il caricamento delle partite."
+    );
+
+  } finally {
+    stopLoading();
+  }
+});
 // Restituisce i campionati selezionati
 function getSelectedLeagues() {
   return [...leagueCheckboxes]
