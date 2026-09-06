@@ -254,6 +254,29 @@ function renderXgBox(label, value) {
     </div>
   `;
 }
+function getExpertPrediction(probabilities) {
+  if (!probabilities) {
+    return {
+      label: "Nessun pronostico",
+      value: 0
+    };
+  }
+
+  const options = [
+    { label: "🏠 1 Casa", value: probabilities.homeWin },
+    { label: "🤝 X Pareggio", value: probabilities.draw },
+    { label: "✈️ 2 Ospite", value: probabilities.awayWin },
+    { label: "⚽ GG / BTTS", value: probabilities.btts },
+    { label: "🔥 Over 2.5", value: probabilities.over25 },
+    { label: "🛡️ Under 2.5", value: probabilities.under25 }
+  ];
+
+  return options.reduce((best, current) => {
+    return Number(current.value) > Number(best.value)
+      ? current
+      : best;
+  });
+}
 function renderMatchCard(match) {
   const home = escapeHtml(match.home || "Casa");
   const away = escapeHtml(match.away || "Ospite");
@@ -264,7 +287,7 @@ function renderMatchCard(match) {
 
   const mainProbability = getMainProbability(match);
   const mainLabel = getStrategyLabel();
-
+const expertPrediction = getExpertPrediction(probabilities);
   return `
     <article class="match-card">
 
