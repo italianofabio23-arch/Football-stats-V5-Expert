@@ -680,7 +680,7 @@ async function fetchStandings(leagueId, season) {
   const data = await response.json();
 
 const standings =
-  data.response?.[0]?.league?.standings?.[0] || [];
+  data.standings?.[0]?.table || [];
 
   standingsCache[key] = standings;
 
@@ -769,11 +769,11 @@ function calculateLeagueGoalAverage(standings) {
 
   for (const row of standings) {
     totalGoals += safeNumber(
-      row.all?.goals?.for
+      row.goalsFor
     );
 
     totalPlayed += safeNumber(
-      row.all?.played
+      row.playedGames
     );
   }
 
@@ -850,34 +850,34 @@ async function calculateExpectedGoals(game) {
   // CASA
   const homePlayed =
     safeNumber(
-      homeRow.all?.played
+      homeRow.playedGames
     );
 
   const homeGF =
     safeNumber(
-      homeRow.all?.goals?.for
+      homeRow.goalsFor
     );
 
   const homeGA =
     safeNumber(
-      homeRow.all?.goals?.against
+      homeRow.goalsAgainst
     );
 
 
   // OSPITE
   const awayPlayed =
     safeNumber(
-      awayRow.all?.played
+      awayRow.playedGames
     );
 
   const awayGF =
     safeNumber(
-      awayRow.all?.goals?.for
+      awayRow.goalsFor
     );
 
   const awayGA =
     safeNumber(
-      awayRow.all?.goals?.against
+      awayRow.goalsAgainst
     );
 
 
