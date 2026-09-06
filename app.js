@@ -558,7 +558,7 @@ function renderRiskyExpertSlip(matches) {
         Number(b.prediction.value) -
         Number(a.prediction.value)
     )
-    .slice(0, 3);
+    .slice(0, 4);
 const combinedEstimatedOdds = picks.reduce(
   (total, { prediction }) => {
     const probability = Number(prediction.value);
