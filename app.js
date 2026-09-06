@@ -522,7 +522,18 @@ function renderRiskyExpertSlip(matches) {
         Number(a.prediction.value)
     )
     .slice(0, 3);
+const combinedEstimatedOdds = picks.reduce(
+  (total, { prediction }) => {
+    const probability = Number(prediction.value);
 
+    if (!Number.isFinite(probability) || probability <= 0) {
+      return total;
+    }
+
+    return total * (100 / probability);
+  },
+  1
+);
   if (picks.length < 2) {
     return `
       <article class="match-card">
@@ -556,11 +567,21 @@ function renderRiskyExpertSlip(matches) {
             </span>
 
             <div class="market-value">
-              ${clampPercent(prediction.value)}%
-            </div>
+  ${clampPercent(prediction.value)}%
+  <br>
+  <span style="font-size:0.75em">
+    Quota stimata ${(100 / Number(prediction.value)).toFixed(2)}
+  </span>
+</div>
           </div>
         `).join("")}
       </div>
+      <div class="market-box" style="margin-top:16px;">
+  <span>💰 Quota totale stimata</span>
+  <div class="market-value">
+    ${combinedEstimatedOdds.toFixed(2)}
+  </div>
+</div>
     </article>
   `;
 }
