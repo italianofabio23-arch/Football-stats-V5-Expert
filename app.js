@@ -431,8 +431,61 @@ matches = await Promise.all(
     `${matches.length} risultati`;
 
   resultsContainer.innerHTML =
-    matches.map(renderMatchCard).join("");
+  renderTop80Slip(matches) +
+  matches.map(renderMatchCard).join("");
     }
+function renderTop80Slip(matches) {
+  const picks = matches
+    .map((match) => ({
+      match,
+      prediction: getExpertPrediction(match.probabilities || {})
+    }))
+    .filter((item) => Number(item.prediction.value) >= 80)
+    .sort(
+      (a, b) =>
+        Number(b.prediction.value) -
+        Number(a.prediction.value)
+    )
+    .slice(0, 3);
+
+  if (picks.length < 2) {
+    return `
+      <article class="match-card">
+        <div class="teams">
+          🔥 SCHEDINA TOP 80+
+        </div>
+        <div class="market-box">
+          <span>Nessuna schedina TOP disponibile</span>
+        </div>
+      </article>
+    `;
+  }
+
+  return `
+    <article class="match-card">
+      <div class="teams">
+        🔥 SCHEDINA TOP 80+
+      </div>
+
+      <div class="market-grid">
+        ${picks.map(({ match, prediction }) => `
+          <div class="market-box">
+            <span>
+              ${escapeHtml(match.home)} -
+              ${escapeHtml(match.away)}
+              <br>
+              ${escapeHtml(prediction.label)}
+            </span>
+
+            <div class="market-value">
+              ${clampPercent(prediction.value)}%
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </article>
+  `;
+}
 // ==========================================
 // BLOCCO 4A - Backend V4 e gestione date
 // ==========================================
