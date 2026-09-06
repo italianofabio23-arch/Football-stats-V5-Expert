@@ -272,20 +272,17 @@ function renderMatchCard(match) {
           mainProbability
         )}
 
-        ${renderMarketBox(
-          "GG / BTTS",
-          probabilities.btts
-        )}
+      ${mainLabel !== "GG / BTTS"
+  ? renderMarketBox("GG / BTTS", probabilities.btts)
+  : ""}
 
-        ${renderMarketBox(
-          "Over 2.5",
-          probabilities.over25
-        )}
+${mainLabel !== "Over 2.5"
+  ? renderMarketBox("Over 2.5", probabilities.over25)
+  : ""}
 
-        ${renderMarketBox(
-          "Under 2.5",
-          probabilities.under25
-        )}
+${mainLabel !== "Under 2.5"
+  ? renderMarketBox("Under 2.5", probabilities.under25)
+  : ""}
 
       </div>
 
