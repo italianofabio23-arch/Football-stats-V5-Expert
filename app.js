@@ -559,6 +559,47 @@ function renderRiskyExpertSlip(matches) {
 Number(b.prediction.value)
     )
     .slice(0, 4);
+  if (picks.length < 4) {
+  const missing = 4 - picks.length;
+
+  const fallbackPicks = matches
+    .filter((match) => !picks.some((pick) => pick.match === match))
+    .map((match) => {
+      const p = match.probabilities || {};
+
+      const options = [
+        { label: "🏠 1 Casa", value: p.homeWin },
+        { label: "✈️ 2 Ospite", value: p.awayWin },
+        { label: "⚽ GG / BTTS", value: p.btts },
+        { label: "🔥 Over 2.5", value: p.over25 }
+      ]
+        .filter(
+          (option) =>
+            Number(option.value) >= 60 &&
+            Number(option.value) < 65
+        )
+        .sort(
+          (a, b) =>
+            Number(b.value) - Number(a.value)
+        );
+
+      if (!options.length) return null;
+
+      return {
+        match,
+        prediction: options[0]
+      };
+    })
+    .filter(Boolean)
+    .sort(
+      (a, b) =>
+        Number(a.prediction.value) -
+        Number(b.prediction.value)
+    )
+    .slice(0, missing);
+
+  picks = [...picks, ...fallbackPicks];
+  }
 const combinedEstimatedOdds = picks.reduce(
   (total, { prediction }) => {
     const probability = Number(prediction.value);
