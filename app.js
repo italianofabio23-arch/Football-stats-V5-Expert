@@ -461,7 +461,18 @@ function renderTop80Slip(matches) {
       </article>
     `;
   }
+const combinedTop80Odds = picks.reduce(
+  (total, { prediction }) => {
+    const probability = Number(prediction.value);
 
+    if (!Number.isFinite(probability) || probability <= 0) {
+      return total;
+    }
+
+    return total * (100 / probability);
+  },
+  1
+);
   return `
     <article class="match-card">
       <div class="teams">
@@ -479,11 +490,37 @@ function renderTop80Slip(matches) {
             </span>
 
             <div class="market-value">
-              ${clampPercent(prediction.value)}%
-            </div>
+  ${clampPercent(prediction.value)}%
+  <br>
+  <span style="font-size:0.75em">
+    Quota stimata ${(100 / Number(prediction.value)).toFixed(2)}
+  </span>
+</div>
           </div>
         `).join("")}
       </div>
+      <div class="market-box" style="margin-top:16px;">
+  <span>💰 Quota totale stimata</span>
+  <div class="market-value">
+    ${combinedTop80Odds.toFixed(2)}
+  </div>
+</div>
+<div class="market-box" style="margin-top:12px;">
+  <span>💶 Puntata</span>
+
+  <input
+    type="number"
+    min="1"
+    step="1"
+    value="10"
+    style="width:100%;margin:10px 0;padding:10px;border-radius:8px;"
+    oninput="this.nextElementSibling.textContent='Vincita potenziale €' + ((Number(this.value) || 0) * ${Number(combinedTop80Odds.toFixed(2))}).toFixed(2)"
+  >
+
+  <div class="market-value">
+    Vincita potenziale €${(10 * Number(combinedTop80Odds.toFixed(2))).toFixed(2)}
+  </div>
+</div>
     </article>
   `;
 }
