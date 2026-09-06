@@ -673,8 +673,14 @@ const standingsCache = {};
 const standingsPending = {};
 // Scarica la classifica del campionato
 async function fetchStandings(leagueId, season) {
+  const emptyStandings = {
+    total: [],
+    home: [],
+    away: []
+  };
+
   if (!leagueId || !season) {
-    return [];
+    return emptyStandings;
   }
 
   const key = `${leagueId}-${season}`;
@@ -683,48 +689,73 @@ async function fetchStandings(leagueId, season) {
     return standingsCache[key];
   }
 
-  const url =
-    `${BACKEND}/api/football?path=/standings` +
-    `&league=${leagueId}&season=${season}`;
-
-  const response = await fetch(url, {
-    cache: "no-store"
-  });
-
-  if (!response.ok) {
-    return [];
+  if (standingsPending[key]) {
+    return standingsPending[key];
   }
 
-  const data = await response.json();
+  standingsPending[key] = (async () => {
+    try {
+      const url =
+        `${BACKEND}/api/football?path=/standings` +
+        `&league=${leagueId}&season=${season}`;
 
-const allStandings =
-  Array.isArray(data.standings)
-    ? data.standings
-    : [];
+      const response = await fetch(url, {
+        cache: "no-store"
+      });
 
-const total =
-  allStandings.find((s) => s.type === "TOTAL")?.table ||
-  allStandings[0]?.table ||
-  [];
+      if (!response.ok) {
+        console.warn(
+          "Standings API errore:",
+          leagueId,
+          season,
+          response.status
+        );
+        return emptyStandings;
+      }
 
-const home =
-  allStandings.find((s) => s.type === "HOME")?.table ||
-  total;
+      const data = await response.json();
 
-const away =
-  allStandings.find((s) => s.type === "AWAY")?.table ||
-  total;
+      const allStandings =
+        Array.isArray(data.standings)
+          ? data.standings
+          : [];
 
-const standings = {
-  total,
-  home,
-  away
-};
+      const total =
+        allStandings.find((s) => s.type === "TOTAL")?.table ||
+        allStandings[0]?.table ||
+        [];
 
-standingsCache[key] = standings;
+      const home =
+        allStandings.find((s) => s.type === "HOME")?.table ||
+        total;
 
-return standings;
-}
+      const away =
+        allStandings.find((s) => s.type === "AWAY")?.table ||
+        total;
+
+      const standings = {
+        total,
+        home,
+        away
+      };
+
+      if (total.length) {
+        standingsCache[key] = standings;
+      }
+
+      return standings;
+
+    } catch (error) {
+      console.error("Errore fetchStandings:", error);
+      return emptyStandings;
+
+    } finally {
+      delete standingsPending[key];
+    }
+  })();
+
+  return standingsPending[key];
+  }
 
 
 // Converte la forma recente in valore 0-1
