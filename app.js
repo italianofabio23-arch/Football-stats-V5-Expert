@@ -284,7 +284,24 @@ if (Number(best.value) < 65) {
   };
 }
 
-return best;
+if (Number(best.value) >= 80) {
+  return {
+    label: `🔥 TOP • ${best.label}`,
+    value: best.value
+  };
+}
+
+if (Number(best.value) >= 70) {
+  return {
+    label: `🟠 Forte • ${best.label}`,
+    value: best.value
+  };
+}
+
+return {
+  label: `🟡 Discreto • ${best.label}`,
+  value: best.value
+};
 }
 function renderMatchCard(match) {
   const home = escapeHtml(match.home || "Casa");
