@@ -582,6 +582,12 @@ const combinedEstimatedOdds = picks.reduce(
     ${combinedEstimatedOdds.toFixed(2)}
   </div>
 </div>
+<div class="market-box" style="margin-top:12px;">
+  <span>💶 Puntata esempio €10</span>
+  <div class="market-value">
+    Vincita potenziale €${(10 * combinedEstimatedOdds).toFixed(2)}
+  </div>
+</div>
     </article>
   `;
 }
