@@ -449,7 +449,7 @@ function renderTop80Slip(matches) {
     )
     .slice(0, 3);
 
-  if (picks.length < 2) {
+  if (picks.length === 0) {
     return `
       <article class="match-card">
         <div class="teams">
@@ -476,7 +476,7 @@ const combinedTop80Odds = picks.reduce(
   return `
     <article class="match-card">
       <div class="teams">
-        🔥 SCHEDINA TOP 80+
+      ${picks.length === 1 ? "🔥 MIGLIORE TOP TROVATO" : "🔥 SCHEDINA TOP 80+"}
       </div>
 
       <div class="market-grid">
