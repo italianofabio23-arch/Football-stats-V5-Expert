@@ -236,7 +236,24 @@ function renderMarketBox(label, value) {
     </div>
   `;
 }
+function renderXgBox(label, value) {
+  const number = Number(value);
 
+  const xg =
+    Number.isFinite(number)
+      ? number.toFixed(2)
+      : "—";
+
+  return `
+    <div class="market-box">
+      <span>${escapeHtml(label)}</span>
+
+      <div class="market-value">
+        ${xg}
+      </div>
+    </div>
+  `;
+}
 function renderMatchCard(match) {
   const home = escapeHtml(match.home || "Casa");
   const away = escapeHtml(match.away || "Ospite");
@@ -283,7 +300,8 @@ ${mainLabel !== "Over 2.5"
 ${mainLabel !== "Under 2.5"
   ? renderMarketBox("Under 2.5", probabilities.under25)
   : ""}
-
+${renderXgBox("xG Casa", match.xg?.home)}
+${renderXgBox("xG Ospite", match.xg?.away)}
       </div>
 
     </article>
