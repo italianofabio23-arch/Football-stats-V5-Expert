@@ -591,11 +591,11 @@ const combinedEstimatedOdds = picks.reduce(
     step="1"
     value="10"
     style="width:100%;margin:10px 0;padding:10px;border-radius:8px;"
-    oninput="this.nextElementSibling.textContent='Vincita potenziale €' + ((Number(this.value) || 0) * ${combinedEstimatedOdds}).toFixed(2)"
+    oninput="this.nextElementSibling.textContent='Vincita potenziale €' + ((Number(this.value) || 0) * ${Number(combinedEstimatedOdds.toFixed(2))}).toFixed(2)"
   >
 
   <div class="market-value">
-    Vincita potenziale €${(10 * combinedEstimatedOdds).toFixed(2)}
+    Vincita potenziale €${(10 * Number(combinedEstimatedOdds.toFixed(2))).toFixed(2)}
   </div>
 </div>
     </article>
