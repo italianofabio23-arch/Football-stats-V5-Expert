@@ -641,7 +641,7 @@ const combinedEstimatedOdds = picks.reduce(
               ${escapeHtml(match.home)} -
               ${escapeHtml(match.away)}
               <br>
-              ${escapeHtml(prediction.label)}
+              ${Number(prediction.value) < 65 ? "⚠️ EXTRA • " : ""}${escapeHtml(prediction.label)}
             </span>
 
             <div class="market-value">
