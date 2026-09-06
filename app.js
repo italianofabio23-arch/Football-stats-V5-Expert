@@ -432,6 +432,7 @@ matches = await Promise.all(
 
   resultsContainer.innerHTML =
   renderTop80Slip(matches) +
+  renderRiskyExpertSlip(matches) +
   matches.map(renderMatchCard).join("");
     }
 function renderTop80Slip(matches) {
@@ -465,6 +466,83 @@ function renderTop80Slip(matches) {
     <article class="match-card">
       <div class="teams">
         🔥 SCHEDINA TOP 80+
+      </div>
+
+      <div class="market-grid">
+        ${picks.map(({ match, prediction }) => `
+          <div class="market-box">
+            <span>
+              ${escapeHtml(match.home)} -
+              ${escapeHtml(match.away)}
+              <br>
+              ${escapeHtml(prediction.label)}
+            </span>
+
+            <div class="market-value">
+              ${clampPercent(prediction.value)}%
+            </div>
+          </div>
+        `).join("")}
+      </div>
+    </article>
+  `;
+}
+function renderRiskyExpertSlip(matches) {
+  const picks = matches
+    .map((match) => {
+      const p = match.probabilities || {};
+
+      const options = [
+        { label: "🏠 1 Casa", value: p.homeWin },
+        { label: "✈️ 2 Ospite", value: p.awayWin },
+        { label: "⚽ GG / BTTS", value: p.btts },
+        { label: "🔥 Over 2.5", value: p.over25 }
+      ]
+        .filter(
+          (option) =>
+            Number(option.value) >= 65 &&
+            Number(option.value) < 80
+        )
+        .sort(
+          (a, b) =>
+            Number(b.value) - Number(a.value)
+        );
+
+      if (!options.length) return null;
+
+      return {
+        match,
+        prediction: options[0]
+      };
+    })
+    .filter(Boolean)
+    .sort(
+      (a, b) =>
+        Number(b.prediction.value) -
+        Number(a.prediction.value)
+    )
+    .slice(0, 3);
+
+  if (picks.length < 2) {
+    return `
+      <article class="match-card">
+        <div class="teams">
+          🎯 SCHEDINA EXPERT RISCHIOSA
+        </div>
+
+        <div class="market-box">
+          <span>
+            Nessuna schedina rischiosa disponibile
+          </span>
+        </div>
+      </article>
+    `;
+  }
+
+  return `
+    <article class="match-card">
+      <div class="teams">
+        🎯 SCHEDINA EXPERT RISCHIOSA
       </div>
 
       <div class="market-grid">
