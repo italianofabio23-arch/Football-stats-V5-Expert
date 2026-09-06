@@ -676,12 +676,33 @@ async function fetchStandings(leagueId, season) {
 
   const data = await response.json();
 
-const standings =
-  data.standings?.[0]?.table || [];
+const allStandings =
+  Array.isArray(data.standings)
+    ? data.standings
+    : [];
 
-  standingsCache[key] = standings;
+const total =
+  allStandings.find((s) => s.type === "TOTAL")?.table ||
+  allStandings[0]?.table ||
+  [];
 
-  return standings;
+const home =
+  allStandings.find((s) => s.type === "HOME")?.table ||
+  total;
+
+const away =
+  allStandings.find((s) => s.type === "AWAY")?.table ||
+  total;
+
+const standings = {
+  total,
+  home,
+  away
+};
+
+standingsCache[key] = standings;
+
+return standings;
 }
 
 
@@ -812,36 +833,65 @@ async function calculateExpectedGoals(game) {
     return null;
   }
 
-  const standings =
-    await fetchStandings(
-      leagueId,
-      season
-    );
+  const standingsData =
+  await fetchStandings(
+    leagueId,
+    season
+  );
 
-  if (!standings.length) {
-    return null;
-  }
+const totalStandings =
+  standingsData?.total || [];
 
-  const homeRow =
-    findStandingTeam(
-      standings,
-      homeTeam
-    );
+const homeStandings =
+  standingsData?.home || totalStandings;
 
-  const awayRow =
-    findStandingTeam(
-      standings,
-      awayTeam
-    );
+const awayStandings =
+  standingsData?.away || totalStandings;
 
-  if (!homeRow || !awayRow) {
-    return null;
-  }
+if (!totalStandings.length) {
+  return null;
+}
 
-  const leagueAverage =
-    calculateLeagueGoalAverage(
-      standings
-    );
+const homeRow =
+  findStandingTeam(
+    homeStandings,
+    homeTeam
+  ) ||
+  findStandingTeam(
+    totalStandings,
+    homeTeam
+  );
+
+const awayRow =
+  findStandingTeam(
+    awayStandings,
+    awayTeam
+  ) ||
+  findStandingTeam(
+    totalStandings,
+    awayTeam
+  );
+
+if (!homeRow || !awayRow) {
+  return null;
+}
+
+const homeTotalRow =
+  findStandingTeam(
+    totalStandings,
+    homeTeam
+  ) || homeRow;
+
+const awayTotalRow =
+  findStandingTeam(
+    totalStandings,
+    awayTeam
+  ) || awayRow;
+
+const leagueAverage =
+  calculateLeagueGoalAverage(
+    totalStandings
+  );
 
 
   // CASA
@@ -911,12 +961,12 @@ async function calculateExpectedGoals(game) {
   // Forma ultime 5
   const homeForm =
     calculateFormScore(
-      homeRow.form
+      homeTotalRow.form
     );
 
   const awayForm =
     calculateFormScore(
-      awayRow.form
+      awayTotalRow.form
     );
 
 
@@ -932,14 +982,14 @@ async function calculateExpectedGoals(game) {
     leagueAverage *
     (homeAttack / leagueAverage) *
     (awayDefense / leagueAverage) *
-    1.12 *
+    1.00 *
     homeFormFactor;
 
   let awayExpectedGoals =
     leagueAverage *
     (awayAttack / leagueAverage) *
     (homeDefense / leagueAverage) *
-    0.88 *
+    1.00 *
     awayFormFactor;
 
 
