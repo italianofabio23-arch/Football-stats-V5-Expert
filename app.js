@@ -271,11 +271,20 @@ function getExpertPrediction(probabilities) {
     { label: "🛡️ Under 2.5", value: probabilities.under25 }
   ];
 
-  return options.reduce((best, current) => {
-    return Number(current.value) > Number(best.value)
-      ? current
-      : best;
-  });
+  const best = options.reduce((best, current) => {
+  return Number(current.value) > Number(best.value)
+    ? current
+    : best;
+});
+
+if (Number(best.value) < 65) {
+  return {
+    label: "⚠️ Nessun pronostico forte",
+    value: best.value
+  };
+}
+
+return best;
 }
 function renderMatchCard(match) {
   const home = escapeHtml(match.home || "Casa");
