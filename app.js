@@ -555,8 +555,8 @@ function renderRiskyExpertSlip(matches) {
     .filter(Boolean)
     .sort(
       (a, b) =>
-        Number(b.prediction.value) -
-        Number(a.prediction.value)
+        Number(a.prediction.value) -
+Number(b.prediction.value)
     )
     .slice(0, 4);
 const combinedEstimatedOdds = picks.reduce(
