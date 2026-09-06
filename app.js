@@ -670,7 +670,7 @@ function calculatePoissonProbabilities(
 // ==========================================
 
 const standingsCache = {};
-
+const standingsPending = {};
 // Scarica la classifica del campionato
 async function fetchStandings(leagueId, season) {
   if (!leagueId || !season) {
