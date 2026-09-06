@@ -306,7 +306,10 @@ const expertPrediction = getExpertPrediction(probabilities);
       </div>
 
       <div class="market-grid">
-
+${renderMarketBox(
+  `🔥 Pronostico Expert: ${expertPrediction.label}`,
+  expertPrediction.value
+)}
         ${renderMarketBox(
           mainLabel,
           mainProbability
