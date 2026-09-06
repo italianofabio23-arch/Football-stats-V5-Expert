@@ -302,6 +302,9 @@ ${mainLabel !== "Under 2.5"
   : ""}
 ${renderXgBox("xG Casa", match.xg?.home)}
 ${renderXgBox("xG Ospite", match.xg?.away)}
+${renderMarketBox("🏠 1 Casa", probabilities.homeWin)}
+${renderMarketBox("🤝 X Pareggio", probabilities.draw)}
+${renderMarketBox("✈️ 2 Ospite", probabilities.awayWin)}
       </div>
 
     </article>
