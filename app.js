@@ -614,7 +614,7 @@ const combinedEstimatedOdds = picks.reduce(
   },
   1
 );
-  if (picks.length < 2) {
+  if (picks.length === 0) {
     return `
       <article class="match-card">
         <div class="teams">
