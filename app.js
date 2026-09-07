@@ -534,7 +534,7 @@ let picks = matches
   { label: "✈️ 2 Ospite", value: p.awayWin },
   { label: "⚽ GG / BTTS", value: p.btts },
   { label: "🔥 Over 2.5", value: p.over25 },
-  { label: "🛡️ Under 2.5", value: p.under25 }
+  { label: "🛡️ Under 2.5", value: 100 - Number(p.over25)}
 ]
         .filter(
           (option) =>
@@ -573,7 +573,7 @@ Number(b.prediction.value)
         { label: "✈️ 2 Ospite", value: p.awayWin },
         { label: "⚽ GG / BTTS", value: p.btts },
         { label: "🔥 Over 2.5", value: p.over25 },
-     { label: "🛡️ Under 2.5", value: p.under25 }
+     { label: "🛡️ Under 2.5", value: 100 - Number(p.over25) }
       ]
         .filter(
           (option) =>
