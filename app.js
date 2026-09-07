@@ -577,7 +577,7 @@ Number(b.prediction.value)
       ]
         .filter(
           (option) =>
-            Number(option.value) >= 60 &&
+          Number(option.value) >= 55 &&
             Number(option.value) < 65
         )
         .sort(
