@@ -530,11 +530,12 @@ let picks = matches
       const p = match.probabilities || {};
 
       const options = [
-        { label: "🏠 1 Casa", value: p.homeWin },
-        { label: "✈️ 2 Ospite", value: p.awayWin },
-        { label: "⚽ GG / BTTS", value: p.btts },
-        { label: "🔥 Over 2.5", value: p.over25 }
-      ]
+  { label: "🏠 1 Casa", value: p.homeWin },
+  { label: "✈️ 2 Ospite", value: p.awayWin },
+  { label: "⚽ GG / BTTS", value: p.btts },
+  { label: "🔥 Over 2.5", value: p.over25 },
+  { label: "🛡️ Under 2.5", value: p.under25 }
+]
         .filter(
           (option) =>
             Number(option.value) >= 65 &&
