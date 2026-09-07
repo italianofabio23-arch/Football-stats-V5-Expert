@@ -525,7 +525,7 @@ const combinedTop80Odds = picks.reduce(
   `;
 }
 function renderRiskyExpertSlip(matches) {
-  const picks = matches
+let picks = matches
     .map((match) => {
       const p = match.probabilities || {};
 
