@@ -693,7 +693,8 @@ const LEAGUE_NAMES = {
   PL: "Premier League",
   PD: "La Liga",
   BL1: "Bundesliga",
-  FL1: "Ligue 1"
+  FL1: "Ligue 1",
+SERIE_B: "Serie B"
 };
 
 // Data YYYY-MM-DD senza problemi di fuso orario
