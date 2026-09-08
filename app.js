@@ -697,6 +697,7 @@ const LEAGUE_NAMES = {
   FL2: "Ligue 2",
   NL2: "Eerste Divisie",
   PD2: "Segunda División",
+  TR1: "Süper Lig",
 SERIE_B: "Serie B",
   CL: "UEFA Champions League",
   EL: "UEFA Europa League",
