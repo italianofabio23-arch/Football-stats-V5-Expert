@@ -698,6 +698,8 @@ const LEAGUE_NAMES = {
   NL2: "Eerste Divisie",
   PD2: "Segunda División",
   TR1: "Süper Lig",
+  PT1: "Primeira Liga",
+SC1: "Premiership",
 SERIE_B: "Serie B",
   CL: "UEFA Champions League",
   EL: "UEFA Europa League",
